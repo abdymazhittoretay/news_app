@@ -52,6 +52,13 @@ class _HomePageState extends State<HomePage> {
         foregroundColor: Colors.white,
         surfaceTintColor: Colors.deepPurple,
         title: Text("NewsWave"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                openDialog();
+              },
+              icon: Icon(Icons.search))
+        ],
       ),
       body: _news.isNotEmpty
           ? ListView.builder(
@@ -85,6 +92,36 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.deepPurple,
               ),
             ),
+    );
+  }
+
+  void openDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: LinearBorder(),
+        title: Text("Search for a news:"),
+        content: TextField(),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: Colors.deepPurple),
+              )),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "Search",
+                style: TextStyle(color: Colors.deepPurple),
+              ))
+        ],
+      ),
     );
   }
 }
