@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:news_app/models/news_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,9 +30,9 @@ class _HomePageState extends State<HomePage> {
             urlToImage: i["urlToImage"] ?? "",
             publishedAt: i["publishedAt"] ?? ""));
       }
-      print(_news.length);
+      setState(() {});
     } catch (e) {
-      print("Error with getting the news $e");
+      print("Error with getting the news: $e");
     }
   }
 
@@ -52,24 +53,30 @@ class _HomePageState extends State<HomePage> {
         surfaceTintColor: Colors.deepPurple,
         title: Text("NewsWave"),
       ),
-      body: ListView.builder(
-        itemCount: _news.length,
-        itemBuilder: (context, index) {
-          final NewsModel newsItem = _news[index];
-          return ListTile(
-            leading: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(newsItem.urlToImage),
-                      fit: BoxFit.fill)),
+      body: _news.isNotEmpty
+          ? ListView.builder(
+              itemCount: _news.length,
+              itemBuilder: (context, index) {
+                final NewsModel newsItem = _news[index];
+                return ListTile(
+                  leading: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(newsItem.urlToImage),
+                            fit: BoxFit.cover)),
+                  ),
+                  title: Text(newsItem.title),
+                  subtitle: Text(newsItem.publishedAt.substring(0, 10)),
+                );
+              },
+            )
+          : Center(
+              child: CircularProgressIndicator(
+                color: Colors.deepPurple,
+              ),
             ),
-            title: Text(newsItem.title),
-            subtitle: Text(newsItem.publishedAt.substring(0, 10)),
-          );
-        },
-      ),
     );
   }
 }
