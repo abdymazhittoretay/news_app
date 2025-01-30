@@ -47,7 +47,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+        surfaceTintColor: Colors.deepPurple,
+        title: Text("NewsWave"),
       ),
       body: ListView.builder(
         itemCount: _news.length,
