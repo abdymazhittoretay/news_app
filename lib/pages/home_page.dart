@@ -49,6 +49,24 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
+      body: ListView.builder(
+        itemCount: _news.length,
+        itemBuilder: (context, index) {
+          final NewsModel newsItem = _news[index];
+          return ListTile(
+            leading: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(newsItem.urlToImage),
+                      fit: BoxFit.fill)),
+            ),
+            title: Text(newsItem.title),
+            subtitle: Text(newsItem.publishedAt.substring(0, 10)),
+          );
+        },
+      ),
     );
   }
 }
