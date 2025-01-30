@@ -16,10 +16,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final String _apiKey = dotenv.env["API_KEY"] ?? "";
   final List<NewsModel> _news = [];
+  String _q = "bitcoin";
+
   Future _getNews() async {
     try {
       var response = await http.get(Uri.https("newsapi.org", "/v2/everything", {
-        "q": "bitcoin",
+        "q": _q,
         "apiKey": _apiKey,
       }));
       var data = jsonDecode(response.body);
@@ -42,6 +44,8 @@ class _HomePageState extends State<HomePage> {
 
     super.initState();
   }
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +106,15 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         shape: LinearBorder(),
         title: Text("Search for a news:"),
-        content: TextField(),
+        content: TextField(
+          controller: _controller,
+          autofocus: true,
+          decoration: InputDecoration(hintText: "Type here"),
+        ),
         actions: [
           TextButton(
               onPressed: () {
+                _controller.clear();
                 Navigator.of(context).pop();
               },
               child: Text(
@@ -114,6 +123,13 @@ class _HomePageState extends State<HomePage> {
               )),
           TextButton(
               onPressed: () {
+                if (_controller.text.isNotEmpty) {
+                  _q = _controller.text;
+                  _news.clear();
+                  _controller.clear();
+                  _getNews();
+                }
+                setState(() {});
                 Navigator.of(context).pop();
               },
               child: Text(
