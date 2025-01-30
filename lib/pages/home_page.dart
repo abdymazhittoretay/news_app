@@ -58,17 +58,25 @@ class _HomePageState extends State<HomePage> {
               itemCount: _news.length,
               itemBuilder: (context, index) {
                 final NewsModel newsItem = _news[index];
-                return ListTile(
-                  leading: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(newsItem.urlToImage),
-                            fit: BoxFit.cover)),
+                return GestureDetector(
+                  onTap: () async {
+                    final _url = Uri.parse(newsItem.url);
+                    if (await canLaunchUrl(_url)) {
+                      await launchUrl(_url);
+                    }
+                  },
+                  child: ListTile(
+                    leading: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(newsItem.urlToImage),
+                              fit: BoxFit.cover)),
+                    ),
+                    title: Text(newsItem.title),
+                    subtitle: Text(newsItem.publishedAt.substring(0, 10)),
                   ),
-                  title: Text(newsItem.title),
-                  subtitle: Text(newsItem.publishedAt.substring(0, 10)),
                 );
               },
             )
