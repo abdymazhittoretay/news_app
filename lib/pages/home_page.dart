@@ -18,6 +18,27 @@ class _HomePageState extends State<HomePage> {
   final List<NewsModel> _news = [];
   String _q = "bitcoin";
 
+  Future _getTopHeadlines() async {
+    try {
+      var response =
+          await http.get(Uri.https("newsapi.org", "/v2/top-headlines", {
+        "country": "us",
+        "apiKey": _apiKey,
+      }));
+      var data = jsonDecode(response.body);
+      for (var i in data["articles"]) {
+        _news.add(NewsModel(
+            title: i["title"] ?? "",
+            url: i["url"] ?? "",
+            urlToImage: i["urlToImage"] ?? "",
+            publishedAt: i["publishedAt"] ?? ""));
+      }
+      setState(() {});
+    } catch (e) {
+      print("Error with getting the news: $e");
+    }
+  }
+
   Future _getNews() async {
     try {
       var response = await http.get(Uri.https("newsapi.org", "/v2/everything", {
@@ -40,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _getNews();
+    _getTopHeadlines();
 
     super.initState();
   }
