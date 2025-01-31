@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage> {
         _news.add(NewsModel(
             title: i["title"] ?? "",
             url: i["url"] ?? "",
-            urlToImage: i["urlToImage"] ?? "",
+            urlToImage: i["urlToImage"] ??
+                "https://static.vecteezy.com/system/resources/previews/003/793/796/non_2x/error-analysis-digital-free-vector.jpg",
             publishedAt: i["publishedAt"] ?? ""));
       }
       setState(() {});
@@ -50,7 +51,8 @@ class _HomePageState extends State<HomePage> {
         _news.add(NewsModel(
             title: i["title"] ?? "",
             url: i["url"] ?? "",
-            urlToImage: i["urlToImage"] ?? "",
+            urlToImage: i["urlToImage"] ??
+                "https://static.vecteezy.com/system/resources/previews/003/793/796/non_2x/error-analysis-digital-free-vector.jpg",
             publishedAt: i["publishedAt"] ?? ""));
       }
       setState(() {});
